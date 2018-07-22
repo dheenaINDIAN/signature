@@ -1,0 +1,43 @@
+<%= form_with(model: user, local: true, id: "form", html: { multipart: true } ) do |form| %>
+<div class="field">
+  <%= form.label :signature %>
+  <div class="wrapper">
+    <img src="background_img" width=400 height=200 />
+    <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>
+  </div>
+</div>
+
+<div class="field">
+  <%= form.label :first_name %>
+  <%= form.text_field :first_name, id: :user_first_name %>
+</div>
+
+<div class="field">
+  <%= form.label :last_name %>
+  <%= form.text_field :last_name, id: :user_last_name %>
+  <%= form.hidden_field :signatures, id: :user_signature %>
+  <%= form.hidden_field :signature_img, id: :signature_img %>
+</div>
+
+<button id="save">Save</button>
+<% end %>
+
+
+<script>
+var signaturePad = new SignaturePad(document.getElementById('signature-pad'), {
+backgroundColor: 'rgba(255, 255, 255, 0)',
+penColor: 'rgb(0, 0, 0)'
+});
+
+var saveButton = document.getElementById('save');
+var user_signature = document.getElementById('user_signature');
+var signature_img = document.getElementById('signature_img');
+var form = document.getElementById('form');
+
+saveButton.addEventListener('click', function (event) {
+    var data = signaturePad.toDataURL('image/png');
+    user_signature.value = signaturePad.toDataURL('image/png')
+    signature_img.value = signaturePad.toDataURL("image/png");
+    form.submit();
+    });
+</script>

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<%= image_tag @user.signature_img.url %>
+<p>
+  <strong>First name:</strong>
+  <%= @user.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @user.last_name %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
+<!--
+we can also show from raw base64 data
+<img src="<%#= @user.signatures%>"/>
+-->

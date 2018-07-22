@@ -1,12 +1,12 @@
 <%= form_with(model: user, local: true, id: "form", html: { multipart: true } ) do |form| %>
-<div class="field">
+  <div class="field">
   <%= form.label :signature %>
   <div class="wrapper">
     <img src="background_img" width=400 height=200 />
     <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>
   </div>
   <h4 id="undo">Undo</h4>
-    <h4 id="clear">Clear</h4>
+  <h4 id="clear">Clear</h4>
 </div>
 
 <div class="field">
@@ -21,7 +21,7 @@
   <%= form.hidden_field :signature_img, id: :signature_img %>
 </div>
 
-<button id="save">Save</button>
+<h4 id="save">Save</h4>
 <% end %>
 
 
@@ -39,21 +39,28 @@ var undoButton = document.getElementById('undo');
 var cancelButton = document.getElementById('clear');
 
 cancelButton.addEventListener('click', function (event) {
-      signaturePad.clear();
-      });
+    signaturePad.clear();
+    });
 
 undoButton.addEventListener('click', function () {
-  var data = signaturePad.toData();
-  if (data) {
+    var data = signaturePad.toData();
+    if (data) {
     data.pop();
     signaturePad.fromData(data);
-  }
-});
+    }
+    });
 
 saveButton.addEventListener('click', function (event) {
+    if (signaturePad.isEmpty()) {
+    alert("Please provide a signature");
+    return false
+    }
+    else 
+    {
     var data = signaturePad.toDataURL('image/png');
     user_signature.value = signaturePad.toDataURL('image/png')
     signature_img.value = signaturePad.toDataURL("image/png");
     form.submit();
+    }
     });
 </script>

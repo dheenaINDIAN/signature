@@ -5,6 +5,7 @@
     <img src="background_img" width=400 height=200 />
     <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>
   </div>
+    <h4 id="clear">Clear</h4>
 </div>
 
 <div class="field">
@@ -33,6 +34,11 @@ var saveButton = document.getElementById('save');
 var user_signature = document.getElementById('user_signature');
 var signature_img = document.getElementById('signature_img');
 var form = document.getElementById('form');
+
+var cancelButton = document.getElementById('clear');
+cancelButton.addEventListener('click', function (event) {
+      signaturePad.clear();
+      });
 
 saveButton.addEventListener('click', function (event) {
     var data = signaturePad.toDataURL('image/png');

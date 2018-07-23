@@ -25,7 +25,7 @@
 }
 .wrapper-blank {
   position: relative;
-  width: 400px; /* add width in percentage as 30% */
+  width: 300px; /* add width in percentage as 30% */
   height: 200px; /* add height as auto after fixing the page layout */
   -moz-user-select: none;
   -webkit-user-select: none;

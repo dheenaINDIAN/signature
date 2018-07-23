@@ -1,5 +1,12 @@
 <%= form_with(model: user, local: true, id: "form", html: { multipart: true } ) do |form| %>
   <div class="field">
+  <%= form.label :signature_blank %>
+  <div class="wrapper-blank">
+    <canvas id="signature-pad-blank" class="signature-pad-blank" width=300 height=200 ></canvas>
+  </div>
+  <h4 id="clear_blank">Clear</h4>
+</div>
+  <div class="field">
   <%= form.label :signature %>
   <div class="wrapper">
     <canvas id="signature-pad" class="signature-pad" ></canvas>
@@ -7,13 +14,6 @@
   <h4 id="clear">Clear</h4>
 </div>
 
-  <div class="field">
-  <%= form.label :signature_blank %>
-  <div class="wrapper-blank">
-    <canvas id="signature-pad-blank" class="signature-pad-blank" ></canvas>
-  </div>
-  <h4 id="clear_blank">Clear</h4>
-</div>
 
 <div class="field">
   <%= form.label :first_name %>
@@ -52,6 +52,10 @@ function resizeCanvas() {
 window.onresize = resizeCanvas;
 resizeCanvas();
 
+var signaturePadBlank = new SignaturePad(document.getElementById('signature-pad-blank'), {
+backgroundColor: 'rgba(255, 255, 255, 0)',
+penColor: 'rgb(0, 0, 0)'
+});
 
 var signaturePad = new SignaturePad(document.getElementById('signature-pad'), {
 backgroundColor: 'rgba(255, 255, 255, 0)',
@@ -79,10 +83,6 @@ cancelButton.addEventListener('click', function (event) {
     resizeCanvas();
     });
 
-var signaturePadBlank = new SignaturePad(document.getElementById('signature-pad-blank'), {
-backgroundColor: 'rgba(255, 255, 255, 0)',
-penColor: 'rgb(0, 0, 0)'
-});
 var user_signature_blank = document.getElementById('user_signature_blank');
 var signature_blank = document.getElementById('signature_blank');
 var cancelButtonBlank = document.getElementById('clear_blank');

@@ -2,10 +2,8 @@
   <div class="field">
   <%= form.label :signature %>
   <div class="wrapper">
-    <img src="background_img" width=400 height=200 />
     <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>
   </div>
-  <h4 id="undo">Undo</h4>
   <h4 id="clear">Clear</h4>
 </div>
 
@@ -30,6 +28,7 @@ var signaturePad = new SignaturePad(document.getElementById('signature-pad'), {
 backgroundColor: 'rgba(255, 255, 255, 0)',
 penColor: 'rgb(0, 0, 0)'
 });
+signaturePad.fromDataURL("http://localhost:3000/400x200.png");
 
 var saveButton = document.getElementById('save');
 var user_signature = document.getElementById('user_signature');
@@ -40,22 +39,16 @@ var cancelButton = document.getElementById('clear');
 
 cancelButton.addEventListener('click', function (event) {
     signaturePad.clear();
-    });
-
-undoButton.addEventListener('click', function () {
-    var data = signaturePad.toData();
-    if (data) {
-    data.pop();
-    signaturePad.fromData(data);
-    }
+    signaturePad.fromDataURL("http://localhost:3000/400x200.png");
     });
 
 saveButton.addEventListener('click', function (event) {
-    if (signaturePad.isEmpty()) {
+
+    if (signaturePad.toData().length == 0) {
     alert("Please provide a signature");
     return false
     }
-    else 
+    else
     {
     var data = signaturePad.toDataURL('image/png');
     user_signature.value = signaturePad.toDataURL('image/png')

@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   do_not_validate_attachment_file_type :signature_img
-  has_attached_file :signature_img, :default_url => "/img.png"
+  has_attached_file :signature_img, :default_url => ""
+
+  validates :signature_img, presence: { message: 'Please enter valid signature' }
 
   before_save :set_file_name
 

@@ -2,9 +2,17 @@
   <div class="field">
   <%= form.label :signature %>
   <div class="wrapper">
-    <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>
+    <canvas id="signature-pad" class="signature-pad" ></canvas>
   </div>
   <h4 id="clear">Clear</h4>
+</div>
+
+  <div class="field">
+  <%= form.label :signature_blank %>
+  <div class="wrapper-blank">
+    <canvas id="signature-pad-blank" class="signature-pad-blank" ></canvas>
+  </div>
+  <h4 id="clear_blank">Clear</h4>
 </div>
 
 <div class="field">
@@ -17,6 +25,7 @@
   <%= form.text_field :last_name, id: :user_last_name %>
   <%= form.hidden_field :signatures, id: :user_signature %>
   <%= form.hidden_field :signature_img, id: :signature_img %>
+  <%= form.hidden_field :signature_blank, id: :signature_blank %>
 </div>
 
 <h4 id="save">Save</h4>
@@ -24,12 +33,30 @@
 
 
 <script>
+
+var canvas = document.getElementById('signature-pad');
+ctx = canvas.getContext("2d");
+var background = new Image();
+background.src = "http://localhost:3000/van_picture.jpg";
+background.onload = function() {
+  canvas.width = background.naturalWidth
+    canvas.height = background.naturalHeight
+    ctx.drawImage(background, 0, 0);
+};
+function resizeCanvas() {
+  var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+  canvas.width = canvas.offsetWidth * ratio;
+  canvas.height = canvas.offsetHeight * ratio;
+  canvas.getContext("2d").scale(ratio, ratio);
+}
+window.onresize = resizeCanvas;
+resizeCanvas();
+
+
 var signaturePad = new SignaturePad(document.getElementById('signature-pad'), {
 backgroundColor: 'rgba(255, 255, 255, 0)',
 penColor: 'rgb(0, 0, 0)'
 });
-signaturePad.fromDataURL("http://localhost:3000/400x200.png");
-
 var saveButton = document.getElementById('save');
 var user_signature = document.getElementById('user_signature');
 var signature_img = document.getElementById('signature_img');
@@ -39,20 +66,47 @@ var cancelButton = document.getElementById('clear');
 
 cancelButton.addEventListener('click', function (event) {
     signaturePad.clear();
-    signaturePad.fromDataURL("http://localhost:3000/400x200.png");
+    var canvas = document.getElementById('signature-pad');
+    ctx = canvas.getContext("2d");
+    var background = new Image();
+    background.src = "http://localhost:3000/van_picture.jpg";
+    background.onload = function() {
+    canvas.width = background.naturalWidth
+    canvas.height = background.naturalHeight
+    ctx.drawImage(background, 0, 0);
+    };
+    window.onresize = resizeCanvas;
+    resizeCanvas();
+    });
+
+var signaturePadBlank = new SignaturePad(document.getElementById('signature-pad-blank'), {
+backgroundColor: 'rgba(255, 255, 255, 0)',
+penColor: 'rgb(0, 0, 0)'
+});
+var user_signature_blank = document.getElementById('user_signature_blank');
+var signature_blank = document.getElementById('signature_blank');
+var cancelButtonBlank = document.getElementById('clear_blank');
+
+cancelButtonBlank.addEventListener('click', function (event) {
+    signaturePadBlank.clear();
     });
 
 saveButton.addEventListener('click', function (event) {
 
-    if (signaturePad.toData().length == 0) {
-    alert("Please provide a signature");
+    if (signaturePad.toData().length == 0 ) {
+    alert("Please provide a signature on image");
     return false
     }
+    else if(signaturePadBlank.toData().length == 0) {
+      alert("Please provide a signature on blank");
+      return false
+      }
     else
     {
     var data = signaturePad.toDataURL('image/png');
-    user_signature.value = signaturePad.toDataURL('image/png')
     signature_img.value = signaturePad.toDataURL("image/png");
+    var data_blank = signaturePadBlank.toDataURL('image/png');
+    signature_blank.value = data_blank;
     form.submit();
     }
     });

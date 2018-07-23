@@ -16,23 +16,41 @@
 
 .wrapper {
   position: relative;
-  width: 400px;
-  height: 200px;
+  width: 278px; /* add width in percentage as 30% */
+  height: 360px; /* add height as auto after fixing the page layout */
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
-img {
-  position: absolute;
-  left: 0;
-  top: 0;
+.wrapper-blank {
+  position: relative;
+  width: 400px; /* add width in percentage as 30% */
+  height: 200px; /* add height as auto after fixing the page layout */
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
+/*img {*/
+  /*position: absolute;*/
+  /*left: 0;*/
+  /*top: 0;*/
+/*}*/
 
 .signature-pad {
   position: absolute;
   left: 0;
   top: 0;
-  width:400px;
-  height:200px;
+  width:100%;
+  height:auto;
 }
+
+.signature-pad-blank {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width:100%;
+  height:auto;
+}
+
